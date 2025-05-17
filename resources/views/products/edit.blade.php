@@ -19,7 +19,7 @@ btn-primary btn-sm">&larr; Back</a>
  </div>
  </div>
  <div class="card-body">
- <form action="{{ route('products.update', $product->id) }}" method="post">
+ <form action="{{ route('products.update', $product->id) }}" method="post" enctype="multipart/form-data">
  @csrf
 @method("PUT")
  <div class="mb-3 row">
@@ -27,7 +27,7 @@ btn-primary btn-sm">&larr; Back</a>
  <div class="col-md-6">
  <input type="text" class="form-control 
 @error('code') is-invalid @enderror" id="code" name="code" value="{{ 
-$product->code }}">
+old('code', $product->code) }}">
  @error('code')
  <span class="text-danger">{{ $message 
 }}</span>
@@ -39,7 +39,7 @@ $product->code }}">
  <div class="col-md-6">
  <input type="text" class="form-control 
 @error('name') is-invalid @enderror" id="name" name="name" value="{{ 
-$product->name }}">
+old('name', $product->name) }}">
  @error('name')
  <span class="text-danger">{{ $message 
 }}</span>
@@ -51,7 +51,7 @@ $product->name }}">
  <div class="col-md-6">
  <input type="number" class="form-control 
 @error('quantity') is-invalid @enderror" id="quantity" name="quantity"
-value="{{ $product->quantity }}">
+value="{{ old('quantity', $product->quantity) }}">
  @error('quantity')
  <span class="text-danger">{{ $message 
 }}</span>
@@ -63,7 +63,7 @@ value="{{ $product->quantity }}">
  <div class="col-md-6">
  <input type="number" step="0.01"
 class="form-control @error('price') is-invalid @enderror" id="price"
-name="price" value="{{ $product->price }}">
+name="price" value="{{ old('price', $product->price) }}">
  @error('price')
  <span class="text-danger">{{ $message 
 }}</span>
@@ -75,15 +75,31 @@ name="price" value="{{ $product->price }}">
  <div class="col-md-6">
  <textarea class="form-control 
 @error('description') is-invalid @enderror" id="description"
-name="description">{{ $product->description }}</textarea>
+name="description">{{ old('description', $product->description) }}</textarea>
  @error('description')
  <span class="text-danger">{{ $message 
 }}</span>
  @enderror
  </div>
  </div>
-<div class="mb-3 row">
- <input type="submit" class="col-md-3 offsetmd-5 btn btn-primary" value="Update">
+ <div class="mb-3 row">
+ <label for="image" class="col-md-4 col-form-label text-md-end text-start">Product Image</label>
+ <div class="col-md-6">
+ @if($product->image)
+ <div class="mb-2">
+ <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="img-fluid" style="max-width: 200px;">
+ </div>
+ @endif
+ <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image">
+ @error('image')
+ <span class="text-danger">{{ $message }}</span>
+ @enderror
+ </div>
+ </div>
+ <div class="mb-3 row">
+ <div class="col-md-6 offset-md-4">
+ <button type="submit" class="btn btn-primary">Update Product</button>
+ </div>
  </div>
  </form>
  </div>
