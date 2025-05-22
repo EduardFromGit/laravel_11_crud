@@ -9,6 +9,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Public routes
 Route::get('/login', function () {
     return view('login');
 })->name('login');
@@ -30,4 +31,7 @@ Route::get('/forgot-password', function () {
 Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink'])
     ->name('password.email');
 
-Route::resource('products', ProductController::class);
+// Protected routes
+Route::middleware(['auth'])->group(function () {
+    Route::resource('products', ProductController::class);
+});
